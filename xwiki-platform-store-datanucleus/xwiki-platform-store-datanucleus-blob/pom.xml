@@ -1,0 +1,101 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+
+  <modelVersion>4.0.0</modelVersion>
+
+  <parent>
+    <groupId>org.xwiki.platform</groupId>
+    <artifactId>xwiki-platform-store-datanucleus</artifactId>
+    <version>4.1-SNAPSHOT</version>
+  </parent>
+
+  <groupId>org.xwiki.platform</groupId>
+  <artifactId>xwiki-platform-store-datanucleus-blob</artifactId>
+  <packaging>jar</packaging>
+
+  <dependencies>
+
+    <dependency>
+      <groupId>org.xwiki.platform</groupId>
+      <artifactId>xwiki-platform-store-datanucleus-base</artifactId>
+      <version>${project.version}</version>
+    </dependency>
+
+    <dependency>
+      <groupId>org.xwiki.platform</groupId>
+      <artifactId>xwiki-platform-store-blob</artifactId>
+      <version>${project.version}</version>
+    </dependency>
+
+    <!-- IOUtils -->
+    <dependency>
+      <groupId>commons-io</groupId>
+      <artifactId>commons-io</artifactId>
+    </dependency>
+
+  </dependencies>
+
+  <build>
+    <plugins>
+      <plugin>
+        <groupId>org.datanucleus</groupId>
+        <artifactId>maven-datanucleus-plugin</artifactId>
+        <version>${datanucleus.plugin.version}</version>
+        <configuration>
+          <mappingIncludes>**/*.jdo, **/*.class</mappingIncludes>
+          <verbose>true</verbose>
+          <enhancerName>ASM</enhancerName>
+          <log4jConfiguration>src/main/resources/log4j.properties</log4jConfiguration>
+        </configuration>
+        <executions>
+          <execution>
+            <phase>compile</phase>
+            <goals>
+              <goal>enhance</goal>
+            </goals>
+          </execution>
+        </executions>
+        <dependencies>
+           <dependency>
+             <groupId>org.datanucleus</groupId>
+             <artifactId>datanucleus-core</artifactId>
+             <version>${datanucleus.version}</version>
+           </dependency>
+        </dependencies>
+      </plugin>
+
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-surefire-plugin</artifactId>
+        <executions>
+          <execution>
+            <phase>integration-test</phase>
+            <goals>
+              <goal>test</goal>
+            </goals>
+          </execution>
+        </executions>
+        <!--<configuration>
+          <includes>
+            <include>**/AllTests.java</include>
+          </includes>
+        </configuration>-->
+      </plugin>
+
+      <plugin>
+        <!-- Apply the Checkstyle configurations defined in the top level pom.xml file -->
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-checkstyle-plugin</artifactId>
+        <configuration>
+          <excludes>
+              <!-- Just prototyping for now. -->
+              **/*
+          </excludes>
+        </configuration>
+      </plugin>
+
+    </plugins>
+  </build>
+
+</project>
