@@ -12,6 +12,8 @@
 
   <groupId>org.xwiki.platform</groupId>
   <artifactId>xwiki-platform-store-datanucleus-base</artifactId>
+  <name>XWiki Platform - Store - DataNucleus - Base</name>
+  <description>DataNucleus based storage module</description>
   <packaging>jar</packaging>
 
   <dependencies>

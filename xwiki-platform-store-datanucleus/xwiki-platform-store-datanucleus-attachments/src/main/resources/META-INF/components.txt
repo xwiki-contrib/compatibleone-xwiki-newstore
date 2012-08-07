@@ -1,1 +1,4 @@
 org.xwiki.store.attachments.datanucleus.internal.DataNucleusAttachmentStore
+org.xwiki.store.attachments.datanucleus.internal.DataNucleusAttachmentContentStore
+org.xwiki.store.attachments.datanucleus.adapter.internal.DataNucleusAttachmentRecycleBinStoreAdapter
+org.xwiki.store.attachments.datanucleus.adapter.internal.DataNucleusAttachmentStoreAdapter

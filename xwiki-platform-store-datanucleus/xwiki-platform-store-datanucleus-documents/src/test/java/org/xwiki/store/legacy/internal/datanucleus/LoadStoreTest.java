@@ -57,7 +57,6 @@ import org.xwiki.environment.internal.ServletEnvironment;
 import org.xwiki.test.AbstractComponentTestCase;
 import org.xwiki.model.reference.DocumentReference;
 import org.xwiki.store.legacy.internal.datanucleus.PersistableXWikiDocument;
-import org.xwiki.store.attachments.adapter.internal.FilesystemDataNucleusAttachmentStoreAdapter;
 
 
 public class LoadStoreTest
@@ -108,7 +107,7 @@ public class LoadStoreTest
         final Execution exec = actc.getComponentManager().getInstance(Execution.class);
         exec.setContext(context);
         xwiki.setAttachmentStore((XWikiAttachmentStoreInterface)
-            actc.getComponentManager().getInstance(XWikiAttachmentStoreInterface.class, "file"));
+            actc.getComponentManager().getInstance(XWikiAttachmentStoreInterface.class, "datanucleus"));
     }
 
     @Before
@@ -299,8 +298,8 @@ public class LoadStoreTest
 
         final XWikiAttachment attach = testDoc2.getAttachment("file.txt");
         byte[] content = attach.getContent(xc);
-
-        Assert.assertTrue(new String(content, "UTF-8").equals(testContent));
+//try{for(;;){Thread.sleep(10000);}}catch(Exception e){}
+        Assert.assertEquals(testContent, new String(content, "UTF-8"));
     }
 
     @Test

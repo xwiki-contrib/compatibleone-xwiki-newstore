@@ -28,10 +28,10 @@ class BlobChunk
 {
     /**
      * The primary key.
-     * This is constructed of the blob id followed by the chunk index, starting with zero.
+     * This is constructed of the blob id followed by the version then the chunk index, comma seperated.
      */
     @PrimaryKey
-    private Object[] id;
+    private String id;
 
     @Index
     private String blobId;
@@ -61,10 +61,10 @@ class BlobChunk
         this.content = content;
     }
 
-    public static Object[] makeId(final String blobId,
-                                  final long version,
-                                  final int chunkIndex)
+    public static String makeId(final String blobId,
+                                final long version,
+                                final int chunkIndex)
     {
-        return new Object[] { blobId, version, chunkIndex };
+        return blobId + "," + version + "," + chunkIndex;
     }
 }

@@ -26,6 +26,7 @@
     <module>xwiki-platform-store-datanucleus-cassandra</module>
     <module>xwiki-platform-store-datanucleus-attachments</module>
     <module>xwiki-platform-store-filesystem-datanucleus-attachments</module>
+    <module>xwiki-platform-store-datanucleus-blob</module>
     <module>xwiki-platform-store-datanucleus-documents</module>
   </modules>
 

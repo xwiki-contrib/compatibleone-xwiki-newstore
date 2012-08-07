@@ -57,6 +57,14 @@
       <version>${project.version}</version>
     </dependency>
 
+
+    <!-- We have a runtime dependency on the implementation of DN blob store so it can be injected. -->
+    <dependency>
+      <groupId>org.xwiki.platform</groupId>
+      <artifactId>xwiki-platform-store-datanucleus-blob</artifactId>
+      <version>${project.version}</version>
+    </dependency>
+
     <!--
       * needed only for the XWikiAttachment, XWikiAttachmentArchive, and DeletedAttachment classes
       -->

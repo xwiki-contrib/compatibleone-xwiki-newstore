@@ -46,6 +46,8 @@
     <module>xwiki-platform-store-filesystem-attachments</module>
     <module>xwiki-platform-store-filesystem-attachments-test</module>
     <module>xwiki-platform-store-filesystem-hibernate-attachments</module>
+    <module>xwiki-platform-store-blob</module>
+    <module>xwiki-platform-store-datanucleus</module>
   </modules>
   <build>
     <plugins>

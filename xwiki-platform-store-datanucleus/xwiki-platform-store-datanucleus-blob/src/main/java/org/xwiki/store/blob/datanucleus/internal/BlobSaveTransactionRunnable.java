@@ -103,7 +103,8 @@ class BlobSaveTransactionRunnable extends TransactionRunnable<PersistenceManager
      */
     private void deleteOldEntries(final long deleteBeforeVersion)
     {
-        final Query q = this.getContext().newQuery(BlobChunk.class, "WHERE blobId == ? && version < ?");
+        final Query q =
+            this.getContext().newQuery(BlobChunk.class, "blobId == :id && version < :ver");
         q.deletePersistentAll(new Object[] { this.key, deleteBeforeVersion });
     }
 
