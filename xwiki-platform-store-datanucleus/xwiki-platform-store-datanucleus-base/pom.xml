@@ -108,6 +108,17 @@
              <artifactId>datanucleus-core</artifactId>
              <version>${datanucleus.version}</version>
            </dependency>
+
+           <!--
+             * Without this explicitly defined as a dependency,
+             * the build fails unless asm is already in your local repo.
+             -->
+           <dependency>
+             <groupId>asm</groupId>
+             <artifactId>asm</artifactId>
+             <version>3.3</version>
+           </dependency>
+
         </dependencies>
       </plugin>
 

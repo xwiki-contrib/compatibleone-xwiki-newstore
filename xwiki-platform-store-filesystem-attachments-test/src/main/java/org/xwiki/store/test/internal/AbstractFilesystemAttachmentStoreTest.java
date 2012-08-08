@@ -25,10 +25,10 @@ import com.xpn.xwiki.web.Utils;
 import javax.servlet.ServletContext;
 import org.jmock.Expectations;
 import org.junit.Before;
-import org.xwiki.environment.Environment;
 import org.xwiki.environment.internal.ServletEnvironment;
 import org.xwiki.test.AbstractMockingComponentTestCase;
-
+import org.xwiki.test.annotation.MockingRequirement;
+import org.xwiki.test.annotation.AllComponents;
 
 /**
  * Boilerplate for filesystem attachment tests.
@@ -36,8 +36,13 @@ import org.xwiki.test.AbstractMockingComponentTestCase;
  * @version $Id$
  * @since TODO
  */
+@AllComponents
 public abstract class AbstractFilesystemAttachmentStoreTest extends AbstractMockingComponentTestCase
 {
+    /** The environment for getting permanent files to store the attachments. */
+    @MockingRequirement
+    private ServletEnvironment environment;
+
     @Before
     @Override
     public void setUp() throws Exception
@@ -45,10 +50,9 @@ public abstract class AbstractFilesystemAttachmentStoreTest extends AbstractMock
         super.setUp();
         Utils.setComponentManager(this.getComponentManager());
 
-        final ServletEnvironment environment =
-            (ServletEnvironment) this.getComponentManager().getInstance(Environment.class);
+        final ServletEnvironment env = (ServletEnvironment) this.environment;
         final ServletContext mockServletContext = this.getMockery().mock(ServletContext.class);
-        environment.setServletContext(mockServletContext);
+        env.setServletContext(mockServletContext);
 
         this.getMockery().checking(new Expectations() {
             {
