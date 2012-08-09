@@ -51,12 +51,12 @@ class BlobLoadTransactionRunnable extends TransactionRunnable<PersistenceManager
             for (int i = 0;; i++) {
                 final Object chunkId = BlobChunk.makeId(this.blobId, version, i);
                 final BlobChunk bc = pm.getObjectById(BlobChunk.class, chunkId);
-System.out.println("writing content [" + new String(bc.getContent()) + "]");
                 IOUtils.write(bc.getContent(), this.writeTo);
                 pm.evict(bc);
             }
         } catch (JDOObjectNotFoundException e) {
             // No more chunks to get.
         }
+        writeTo.close();
     }
 }

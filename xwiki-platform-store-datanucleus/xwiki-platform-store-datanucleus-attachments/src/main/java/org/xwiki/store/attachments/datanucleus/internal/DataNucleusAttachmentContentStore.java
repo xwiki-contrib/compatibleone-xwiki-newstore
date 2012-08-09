@@ -90,10 +90,12 @@ public class DataNucleusAttachmentContentStore implements AttachmentContentStore
                 thread.start();
             }
             @Override
-            protected void onComplete()
+            protected void onComplete() throws InterruptedException
             {
                 if (thread.isAlive()) {
                     thread.interrupt();
+                    thread.join(1000);
+                    if (thread.isAlive()) { throw new RuntimeException("Failed to stop pipe thread."); }
                 }
                 if (exception[0] != null) {
                     throw new RuntimeException("Exception in pipe thread", exception[0]);
