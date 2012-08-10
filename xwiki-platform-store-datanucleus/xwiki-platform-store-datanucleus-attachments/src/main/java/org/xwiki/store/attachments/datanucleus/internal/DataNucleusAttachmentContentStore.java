@@ -33,10 +33,6 @@ import org.xwiki.store.attachments.newstore.internal.AttachmentContentStore;
 import org.xwiki.store.TransactionRunnable;
 import org.xwiki.store.blob.BlobStore;
 
-import java.io.IOException;
-import java.io.PipedInputStream;
-import java.io.PipedOutputStream;
-
 /**
  * A means of storing the content of an attachment in a datanucleus based store.
  *
@@ -68,42 +64,16 @@ public class DataNucleusAttachmentContentStore implements AttachmentContentStore
     @Override
     public TransactionRunnable<PersistenceManager> getAttachmentContentLoadRunnable(final XWikiAttachment attachment)
     {
-        final PipedInputStream pis = new PipedInputStream();
-        final PipedOutputStream pos = new PipedOutputStream();
-        final Exception[] exception = new Exception[1];
-        final Thread thread = new Thread(new Runnable() {
+        final XWikiAttachmentContent xac = new XWikiAttachmentContent(attachment);
+        final TransactionRunnable tr =
+                this.blobStore.getLoadRunnable(this.idForAttach(attachment), xac.getContentOutputStream());
+        (new TransactionRunnable<Object>() {
             @Override
-            public void run()
+            protected void onCommit()
             {
-                try {
-                    attachment.setContent(pis);
-                } catch (Exception e) {
-                    exception[0] = e;
-                }
+                attachment.setAttachment_content(xac);
             }
-        });
-        final TransactionRunnable tr = (new TransactionRunnable() {
-            @Override
-            protected void onRun() throws IOException
-            {
-                pos.connect(pis);
-                thread.start();
-            }
-            @Override
-            protected void onComplete() throws InterruptedException
-            {
-                if (thread.isAlive()) {
-                    thread.interrupt();
-                    thread.join(1000);
-                    if (thread.isAlive()) { throw new RuntimeException("Failed to stop pipe thread."); }
-                }
-                if (exception[0] != null) {
-                    throw new RuntimeException("Exception in pipe thread", exception[0]);
-                }
-            }
-        });
-        final TransactionRunnable loadTr = this.blobStore.getLoadRunnable(this.idForAttach(attachment), pos);
-        loadTr.runIn(tr);
+        }).runIn(tr);
         return tr;
     }
 
