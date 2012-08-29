@@ -59,6 +59,7 @@ public class DataNucleusCassandraTransactionProvider implements TransactionProvi
 
         this.factory = JDOHelper.getPersistenceManagerFactory("Test");
         this.dnClassLoader = new DataNucleusClassLoader(this.getClass().getClassLoader());
+        MetaDataManagerReplacer.ugly(this.factory, this.dnClassLoader);
         initializePersistableClasses();
     }
 

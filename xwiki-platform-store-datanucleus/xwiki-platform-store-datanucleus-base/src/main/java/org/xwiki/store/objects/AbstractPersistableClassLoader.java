@@ -27,7 +27,7 @@ import java.util.Collections;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.Map;
 import java.util.Set;
-import java.util.WeakHashMap;
+import java.util.HashSet;
 
 /**
  * The DataNucleusClassLoader is designed to load java classes from the data store.
@@ -39,8 +39,7 @@ public abstract class AbstractPersistableClassLoader
     private final Map<String, SoftReference<PersistableClass>> classByName =
         new ConcurrentHashMap<String, SoftReference<PersistableClass>>();
 
-    private final Set<Callback> redefinitionCallbacks =
-        Collections.newSetFromMap(new WeakHashMap<Callback, Boolean>());
+    private final Set<Callback> redefinitionCallbacks = new HashSet<Callback>();
 
     /**
      * The Constructor.

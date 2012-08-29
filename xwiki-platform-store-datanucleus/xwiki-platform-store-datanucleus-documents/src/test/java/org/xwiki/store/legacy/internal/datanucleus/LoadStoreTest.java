@@ -102,6 +102,7 @@ public class LoadStoreTest
 
         XCONTEXT = new XWikiContext();
         XCONTEXT.setWiki(xwiki);
+        XCONTEXT.setDatabase("xwiki");
         final ExecutionContext context = new ExecutionContext();
         context.setProperty("xwikicontext", XCONTEXT);
         final Execution exec = actc.getComponentManager().getInstance(Execution.class);
@@ -122,19 +123,28 @@ public class LoadStoreTest
     public void testLoadStoreXWikiDocument() throws Exception
     {
         final ClassLoader classLoader = this.getClass().getClassLoader();
-        final XWikiDocument xwikiPrefs = new XWikiDocument(null);
-        xwikiPrefs.fromXML(classLoader.getResourceAsStream("XWikiPreferences.xml"), false);
 
         final XWikiDocument globalRights = new XWikiDocument(null);
         globalRights.fromXML(classLoader.getResourceAsStream("XWikiGlobalRights.xml"), false);
 
+        // save and reload a document, make sure the new one is 'new'
         this.store.saveXWikiDoc(globalRights, null);
         final XWikiDocument globalRights2 = new XWikiDocument(globalRights.getDocumentReference());
         this.store.loadXWikiDoc(globalRights2, null);
-
         Assert.assertTrue(!globalRights2.isNew());
 
-        this.store.saveXWikiDoc(xwikiPrefs, null);
+        // install the default XWikiPreferences as it is created when XWiki starts up.
+        this.xcontext.getWiki().getPrefsClass(this.xcontext);
+        final XWikiDocument prefs1 = new XWikiDocument(new DocumentReference("xwiki", "XWiki", "XWikiPreferences"));
+        this.store.loadXWikiDoc(prefs1, null);
+
+        // Now install the XWikiPreferences which is bundled in XE which will replace the default.
+        final XWikiDocument xwikiPrefs = new XWikiDocument(null);
+        xwikiPrefs.fromXML(classLoader.getResourceAsStream("XWikiPreferences.xml"), false);
+        this.xcontext.getWiki().saveDocument(xwikiPrefs, "", true, this.xcontext);
+
+        // Reload it and make sure there are no errors.
+        this.store.loadXWikiDoc(prefs1, null);
 
         Assert.assertEquals(0, store.getTranslationList(xwikiPrefs, null).size());
     }
