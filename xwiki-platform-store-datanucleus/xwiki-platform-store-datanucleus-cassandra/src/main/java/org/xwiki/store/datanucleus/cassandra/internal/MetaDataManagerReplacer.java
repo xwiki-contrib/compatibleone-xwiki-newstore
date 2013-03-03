@@ -29,12 +29,10 @@ import org.datanucleus.OMFContext;
 import org.datanucleus.metadata.AbstractClassMetaData;
 import org.datanucleus.jdo.metadata.JDOMetaDataManager;
 import org.xwiki.store.objects.PersistableClassLoader;
-import org.xwiki.store.datanucleus.internal.UnloadingJDOMetaDataManager;
 import org.xwiki.component.util.ReflectionUtils;
 import org.xwiki.store.objects.Callback;
 
 /**
- * This is a workaround because we need to use the UnloadingJDOMetaDataManager but it is not a public extension point.
  * TODO: offer a patch to make this an extension point so this can go away.
  */
 public class MetaDataManagerReplacer implements Callback

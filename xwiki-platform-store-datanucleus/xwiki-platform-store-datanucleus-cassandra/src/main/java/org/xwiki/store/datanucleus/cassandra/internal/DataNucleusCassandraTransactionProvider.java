@@ -43,7 +43,7 @@ import org.xwiki.store.objects.PersistableClass;
 @Named("datanucleus-cassandra")
 public class DataNucleusCassandraTransactionProvider implements TransactionProvider<PersistenceManager>
 {
-    private final CassandraDaemon cassi;
+    private CassandraDaemon cassi;
 
     private final PersistenceManagerFactory factory;
 
@@ -51,11 +51,13 @@ public class DataNucleusCassandraTransactionProvider implements TransactionProvi
 
     public DataNucleusCassandraTransactionProvider()
     {
-        System.setProperty("log4j.configuration", "log4j.properties");
-        System.setProperty("cassandra.config", "cassandra.yaml");
-        System.setProperty("cassandra-foreground", "1");
-        this.cassi = new CassandraDaemon();
-        this.cassi.activate();
+        if (System.getProperty("cassandra.noStart") == null) {
+            System.setProperty("log4j.configuration", "log4j.properties");
+            System.setProperty("cassandra.config", "cassandra.yaml");
+            System.setProperty("cassandra-foreground", "1");
+            this.cassi = new CassandraDaemon();
+            this.cassi.activate();
+        }
 
         this.factory = JDOHelper.getPersistenceManagerFactory("Test");
         this.dnClassLoader = new DataNucleusClassLoader(this.getClass().getClassLoader());

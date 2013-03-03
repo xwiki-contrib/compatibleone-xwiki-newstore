@@ -27,7 +27,7 @@
   <parent>
     <groupId>org.xwiki.platform</groupId>
     <artifactId>xwiki-platform-store-hibernate</artifactId>
-    <version>4.2-SNAPSHOT</version>
+    <version>5.0-SNAPSHOT</version>
   </parent>
   <artifactId>xwiki-platform-store-hibernate-attachments</artifactId>
   <name>XWiki Platform - Store - Hibernate - Attachments</name>
