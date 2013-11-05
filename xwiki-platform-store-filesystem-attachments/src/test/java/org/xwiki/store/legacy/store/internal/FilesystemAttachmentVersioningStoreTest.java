@@ -46,7 +46,6 @@ import org.xwiki.store.attachments.newstore.internal.FilesystemAttachmentArchive
 import org.xwiki.store.attachments.util.internal.AttachmentFileProvider;
 import org.xwiki.store.attachments.util.internal.DefaultFilesystemStoreTools;
 import org.xwiki.store.attachments.util.internal.FilesystemStoreTools;
-import org.xwiki.store.locks.preemptive.internal.PreemptiveLockProvider;
 import org.xwiki.store.serialization.xml.internal.AttachmentListMetadataSerializer;
 import org.xwiki.store.serialization.xml.internal.AttachmentMetadataSerializer;
 import org.xwiki.store.StartableTransactionRunnable;
@@ -83,8 +82,7 @@ public class FilesystemAttachmentVersioningStoreTest extends AbstractFilesystemA
 
         this.fileTools =
             new DefaultFilesystemStoreTools(new PathStringEntityReferenceSerializer(),
-                storageLocation,
-                new PreemptiveLockProvider());
+                                            storageLocation);
         final AttachmentListMetadataSerializer serializer =
             new AttachmentListMetadataSerializer(new AttachmentMetadataSerializer());
         final FilesystemAttachmentArchiveStore archiveStore =

@@ -42,6 +42,7 @@ import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.xwiki.component.util.DefaultParameterizedType;
 import org.xwiki.model.reference.AttachmentReference;
 import org.xwiki.model.reference.DocumentReference;
 import org.xwiki.store.attachments.adapter.internal.AttachmentTools;
@@ -103,9 +104,13 @@ public class AttachmentStoreAdapterTest
         Utils.setComponentManager(cm);
 
         this.jmockContext.checking(new Expectations() {{
+            allowing(cm).getInstanceList(with(any(Class.class)));
+                will(returnValue(new ArrayList()));
             allowing(cm).getInstance(with(any(Class.class)));
                 will(returnValue(null));
             allowing(cm).getInstance(with(any(Class.class)), with(any(String.class)));
+                will(returnValue(null));
+            allowing(cm).getInstance(with(any(DefaultParameterizedType.class)), with(any(String.class)));
                 will(returnValue(null));
         }});
 

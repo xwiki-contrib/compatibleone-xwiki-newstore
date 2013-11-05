@@ -119,6 +119,7 @@ public class AttachmentRecycleBinStoreAdapterTest
                 will(returnValue(now));
             allowing(mockDeletedAttach).setAttachment(with(mockAttach),
                                                       with(any(XWikiContext.class)));
+            allowing(mockDeletedAttach).setAttachment(mockAttach, null);
 
             allowing(mockResolver).resolve("XWiki.User", EntityType.DOCUMENT);
                 will(returnValue(userRef));
